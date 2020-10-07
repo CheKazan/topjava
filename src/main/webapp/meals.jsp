@@ -22,7 +22,7 @@
     </tr>
     <c:forEach items="${mealsTable}" var="meal">
         <tr>
-            <td style="color: <c:out value="${meal.excess ? '#FF0000' : '#008000'}" />">${meal.dateTimeForTable}</td>
+            <td style="color: <c:out value="${meal.excess ? '#FF0000' : '#008000'}" />">${meal.dateTime.toLocalDate()} ${meal.dateTime.toLocalTime()}</td>
             <td style="color: <c:out value="${meal.excess ? '#FF0000' : '#008000'}" />">${meal.description}</td>
             <td style="color: <c:out value="${meal.excess ? '#FF0000' : '#008000'}" />">${meal.calories}</td>
         </tr>
