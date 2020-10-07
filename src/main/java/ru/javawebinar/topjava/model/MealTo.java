@@ -17,6 +17,25 @@ public class MealTo {
         this.calories = calories;
         this.excess = excess;
     }
+    public String getDateTimeForTable() {
+        return getDateTime().toString().replaceFirst("T"," ");
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getCalories() {
+        return calories;
+    }
+
+    public boolean getExcess() {
+        return excess;
+    }
 
     @Override
     public String toString() {
