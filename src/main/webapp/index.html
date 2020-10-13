@@ -9,6 +9,20 @@
 <ul>
     <li><a href="users">Users</a></li>
     <li><a href="meals">Meals</a></li>
+
 </ul>
+
+<form method="post" action="users">
+    <dl>
+        <dt>Current user ID:</dt>
+        <dd><input type="text" value="0" size=40 name="userId" required></dd>
+    </dl>
+    <dl>
+        <dt>Current user calories per day:</dt>
+        <dd><input type="text" value="2000" size=40 name="caloriesPerDay" required></dd>
+    </dl>
+    <button type="submit">Save</button>
+    <button onclick="window.history.back()" type="button">Cancel</button>
+</form>
 </body>
 </html>

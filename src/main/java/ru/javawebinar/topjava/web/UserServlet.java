@@ -1,12 +1,12 @@
 package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
-import ru.javawebinar.topjava.model.Role;
-import ru.javawebinar.topjava.model.User;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.repository.inmemory.InMemoryUserRepository;
-import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.util.UserUtils;
+import ru.javawebinar.topjava.web.user.AdminRestController;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -14,13 +14,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 import static org.slf4j.LoggerFactory.getLogger;
-import static ru.javawebinar.topjava.util.MealsUtil.DEFAULT_CALORIES_PER_DAY;
+
 
 public class UserServlet extends HttpServlet {
     private static final Logger log = getLogger(UserServlet.class);
@@ -30,6 +28,18 @@ public class UserServlet extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         repository = new InMemoryUserRepository();
+
+
+    }
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        String id = request.getParameter("userId");
+        String caloriesPerDay = request.getParameter("caloriesPerDay");
+        log.info(" User now is {}", id);
+        SecurityUtil.setUserId(Integer.parseInt(id));
+        SecurityUtil.setCaloriesPerDay(Integer.parseInt(caloriesPerDay));
+        response.sendRedirect("index.html");
     }
 
     @Override
@@ -49,7 +59,7 @@ public class UserServlet extends HttpServlet {
 //                        new User(null,"Enter your name","Enter email","enter your pass", DEFAULT_CALORIES_PER_DAY,true, Collections.emptySet()) :
 //                        repository.get(getId(request));
 //                request.setAttribute("user", newUser);
-//                request.getRequestDispatcher("/userForm.jsp").forward(request, response);
+//                request.getRequestDispatcher().forward(request, response);
 //                break;
             case "all":
             default:
