@@ -93,6 +93,7 @@ public class MealServiceTest {
 
     @Test
     public void getAll() throws Exception {
+        //ignore userid field because test meals data don't have users -> nulls
         MEAL_MATCHER.assertMatch(service.getAll(USER_ID), meals);
     }
 
