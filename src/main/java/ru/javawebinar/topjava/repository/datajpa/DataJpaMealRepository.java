@@ -1,7 +1,9 @@
 package ru.javawebinar.topjava.repository.datajpa;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
 
 import java.time.LocalDateTime;
@@ -11,97 +13,43 @@ import java.util.List;
 public class DataJpaMealRepository implements MealRepository {
 
     private final CrudMealRepository crudRepository;
-    private final DataJpaUserRepository dataJpaUserRepository;
+    private final CrudUserRepository crudUserRepository;
 
 
-    public DataJpaMealRepository(CrudMealRepository crudRepository, DataJpaUserRepository dataJpaUserRepository) {
+    public DataJpaMealRepository(CrudMealRepository crudRepository, CrudUserRepository crudUserRepository) {
         this.crudRepository = crudRepository;
-        this.dataJpaUserRepository = dataJpaUserRepository;
+        this.crudUserRepository = crudUserRepository;
     }
 
     // null if updated meal do not belong to userId
     @Override
     public Meal save(Meal meal, int userId) {
-//        meal.setUser(dataJpaUserRepository.get(userId));
-//
-//        return crudRepository.save(meal);
-        return null;
+        meal.setUser(crudUserRepository.getOne(userId));
+        // lazy || operation -> don't call get if isnew=true
+        if (meal.isNew() || get(meal.id(), userId)!=null) return crudRepository.save(meal);
+        else return null;
     }
-    //    @Override
-    //    @Transactional
-    //    public Meal save(Meal meal, int userId) {
-    //        meal.setUser(em.getReference(User.class, userId));
-    //        if (meal.isNew()) {
-    //            em.persist(meal);
-    //            return meal;
-    //        } else if (get(meal.id(), userId) == null) {
-    //            return null;
-    //        }
-    //        return em.merge(meal);
-    //    }
 
+    // false if meal do not belong to userId
     @Override
     public boolean delete(int id, int userId) {
-        return false;
+        return crudRepository.delete(id,userId)!=0;
     }
 
     // null if meal do not belong to userId
     @Override
     public Meal get(int id, int userId) {
-        return null;
-        //return crudRepository.getMealByIdAndUserId(id,userId);
+        return crudRepository.getMealByIdAndUserId(id,userId);
     }
 
     @Override
     public List<Meal> getAll(int userId) {
-        return null;
+        return crudRepository.findAllByUserIdOrderByDateTimeDesc(userId);
     }
 
+    // ORDERED dateTime desc
     @Override
     public List<Meal> getBetweenHalfOpen(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
-        return null;
+            return crudRepository.findAllByUserIdAndDateTimeIsAfterAndDateTimeIsBeforeOrderByDateTimeDesc(userId,startDateTime,endDateTime);
     }
 }
-//    @Override
-//    @Transactional
-//    public Meal save(Meal meal, int userId) {
-//        meal.setUser(em.getReference(User.class, userId));
-//        if (meal.isNew()) {
-//            em.persist(meal);
-//            return meal;
-//        } else if (get(meal.id(), userId) == null) {
-//            return null;
-//        }
-//        return em.merge(meal);
-//    }
-//
-//    @Override
-//    @Transactional
-//    public boolean delete(int id, int userId) {
-//        return em.createNamedQuery(Meal.DELETE)
-//                .setParameter("id", id)
-//                .setParameter("userId", userId)
-//                .executeUpdate() != 0;
-//    }
-//
-//    @Override
-//    public Meal get(int id, int userId) {
-//        Meal meal = em.find(Meal.class, id);
-//        return meal != null && meal.getUser().getId() == userId ? meal : null;
-//    }
-//
-//    @Override
-//    public List<Meal> getAll(int userId) {
-//        return em.createNamedQuery(Meal.ALL_SORTED, Meal.class)
-//                .setParameter("userId", userId)
-//                .getResultList();
-//    }
-//
-//    @Override
-//    public List<Meal> getBetweenHalfOpen(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
-//        return em.createNamedQuery(Meal.GET_BETWEEN, Meal.class)
-//                .setParameter("userId", userId)
-//                .setParameter("startDateTime", startDateTime)
-//                .setParameter("endDateTime", endDateTime)
-//                .getResultList();
-//    }
