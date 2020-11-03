@@ -6,7 +6,7 @@ public class Profiles {
             JPA = "jpa",
             DATAJPA = "datajpa";
 
-    public static final String REPOSITORY_IMPLEMENTATION = DATAJPA;
+    public static String REPOSITORY_IMPLEMENTATION = JDBC;
 
     public static final String
             POSTGRES_DB = "postgres",
@@ -27,7 +27,4 @@ public class Profiles {
         }
     }
 
-    public static String getRepositoryImplementation(){
-        return REPOSITORY_IMPLEMENTATION;
-    }
 }

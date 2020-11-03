@@ -17,7 +17,7 @@
         <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>
     </jdbc:initialize-database>
 
-    <!--    DB profiles -->
+    <!--    DB profiles -Arturka -->
     <beans profile="hsqldb">
         <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>
 
@@ -47,11 +47,13 @@
               p:driverClassName="org.postgresql.Driver"
               p:url="${database.url}"
               p:username="${database.username}"
-              p:password="${database.password}"/>
+              p:password="${database.password}"
+              p:maxActive="3"
+        />
     </beans>
 
-    <!--  DB access abstraction level profiles  -->
-    <!--need for both profiles. common beans-->
+    <!--  DB access abstraction level profiles -Arturka  -->
+    <!--need for both profiles. common beans -Arturka-->
     <beans profile="jpa, datajpa">
         <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
               p:dataSource-ref="dataSource"
