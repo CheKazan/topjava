@@ -27,7 +27,7 @@ public abstract class AbstractMealServiceTest extends AbstractServiceTest {
     protected MealService service;
 
     @Autowired
-    Environment environment; //for getting list of active profiles in test
+    protected Environment environment; //for getting list of active profiles in test
 
     @Test
     public void delete() {

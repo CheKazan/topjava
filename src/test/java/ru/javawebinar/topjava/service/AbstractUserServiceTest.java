@@ -26,7 +26,7 @@ import static ru.javawebinar.topjava.UserTestData.*;
 public abstract class AbstractUserServiceTest extends AbstractServiceTest {
 
     @Autowired
-    Environment environment; //for getting list of active profiles in test
+    protected Environment environment; //for getting list of active profiles in test
 
     @Autowired
     protected UserService service;

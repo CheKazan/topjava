@@ -10,7 +10,7 @@ import ru.javawebinar.topjava.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-public class RootController {
+public class RootController{
     @Autowired
     private UserService service;
 
@@ -27,8 +27,13 @@ public class RootController {
 
     @PostMapping("/users")
     public String setUser(HttpServletRequest request) {
+        int userId = authAndGetId(request);
+        return "redirect:meals";
+    }
+
+    public int authAndGetId(HttpServletRequest request){
         int userId = Integer.parseInt(request.getParameter("userId"));
         SecurityUtil.setAuthUserId(userId);
-        return "redirect:meals";
+        return userId;
     }
 }
