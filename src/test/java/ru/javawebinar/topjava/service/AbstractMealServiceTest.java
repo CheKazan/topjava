@@ -112,8 +112,10 @@ public abstract class AbstractMealServiceTest extends AbstractServiceTest {
     @Test
     //@Ignore
     public void createWithException(){
+        //exclude this test if jdbc test
+        // commented cause we resolved problem in jdbc impl
         //if active profile JDBC ignore test
-        Assume.assumeTrue(!Arrays.stream(environment.getActiveProfiles()).anyMatch(x->x.equals("jdbc")));
+        //Assume.assumeTrue(!Arrays.stream(environment.getActiveProfiles()).anyMatch(x->x.equals("jdbc")));
         validateRootCause(() -> service.create(new Meal(null, of(2015, Month.JUNE, 1, 18, 0), "  ", 300), USER_ID), ConstraintViolationException.class);
         validateRootCause(() -> service.create(new Meal(null, null, "Description", 300), USER_ID), ConstraintViolationException.class);
         validateRootCause(() -> service.create(new Meal(null, of(2015, Month.JUNE, 1, 18, 0), "Description", 9), USER_ID), ConstraintViolationException.class);
