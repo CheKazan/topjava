@@ -30,7 +30,7 @@
         <!--    Tests  -->
         <junit.jupiter.version>5.7.0</junit.jupiter.version>
         <assertj.version>3.17.2</assertj.version>
-        <hamcrest.version>1.3</hamcrest.version>
+        <hamcrest.version>2.2</hamcrest.version>
 
         <!-- Hibernate -->
         <hibernate.version>5.4.22.Final</hibernate.version>
